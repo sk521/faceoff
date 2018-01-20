@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Face-Off</title>
-    <script src="bundle.js"></script>
-  </head>
-  <body></body>
-  </body>
+
+<head>
+  <title>Face-Off</title>
+  <meta charset='UTF-8'>
+  <link rel="stylesheet" href="main.css" type="text/css" media="all">
+  <script src="bundle.js"></script>
+  <script src="capture.js"></script>
+  <script src="js/clmtrackr.js"></script>
+</head>
+
+<body>
+  <div class="contentarea">
+    <h1>
+      ~FACE-OFF~
+    </h1>
+    <div class="camera">
+      <video id="video">Video stream not available.</video>
+      <button id="startbutton">Take photo</button>
+    </div>
+    <canvas id="canvas">
+    </canvas>
+    <div class="output">
+      <img id="photo" alt="The screen capture will appear in this box.">
+    </div>
+  </div>
+
+</body>
+
 </html>
