@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="main.css" type="text/css" media="all">
   <script src="bundle.js"></script>
   <script src="capture.js"></script>
-  <script src="js/clmtrackr.js"></script>
+  <script src="clmtrackr.js"></script>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
       ~FACE-OFF~
     </h1>
     <div class="camera">
-      <video id="video">Video stream not available.</video>
+      <video id="video" width="400" height="300">Video stream not available.</video>
       <button id="startbutton">Take photo</button>
     </div>
     <canvas id="canvas">
@@ -24,8 +24,14 @@
     <div class="output">
       <img id="photo" alt="The screen capture will appear in this box.">
     </div>
-  </div>
+    <script type="text/javascript">
+      var videoInput = document.getElementById('video');
 
+      var ctracker = new clm.tracker();
+      ctracker.init();
+      ctracker.start(videoInput);
+    </script>
+  </div>
 </body>
 
 </html>

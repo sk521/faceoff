@@ -17,6 +17,9 @@
     "babel-loader": "^7.1.2",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
     "volleyball": "^1.4.1"
   },
   "devDependencies": {
