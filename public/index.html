@@ -16,7 +16,10 @@
       ~FACE-OFF~
     </h1>
     <div class="camera">
-      <video id="video" width="400" height="300">Video stream not available.</video>
+      <video id="video" width="400" height="300">
+        Video stream not available.
+        <!-- <source src="./media/somevideo.ogv" type="video/ogg" /> -->
+      </video>
       <button id="startbutton">Take photo</button>
     </div>
     <canvas id="canvas">
@@ -26,11 +29,27 @@
     </div>
     <script type="text/javascript">
       var videoInput = document.getElementById('video');
-
       var ctracker = new clm.tracker();
       ctracker.init();
       ctracker.start(videoInput);
     </script>
+
+    <script type="text/javascript">
+      function positionLoop() {
+        requestAnimationFrame(positionLoop);
+        var positions = ctracker.getCurrentPosition();
+
+        // for(let i = 0; i < positions.length; i++) {
+        //   let position = positions[i]
+        //   let xCord = position[0]
+        //   let yCord = position[1]
+        //   console.log("MY POSITIONS: ", xCord, yCord);
+        // }
+        // console.log("POSITIONS: ", positions[[0][x, y]]);
+      }
+      positionLoop();
+    </script>
+
   </div>
 </body>
 
