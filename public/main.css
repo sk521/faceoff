@@ -1,18 +1,13 @@
-#video {
+/* #video {
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
-  width:320px;
-  height:240px;
+  width:400px;
+  height:300px;
 }
 
-#photo {
-  border: 1px solid black;
-  box-shadow: 2px 2px 3px black;
-  width:320px;
-  height:240px;
-}
 
-#canvas {
+
+#imageStore {
   display:none;
 }
 
@@ -24,6 +19,61 @@
 .output {
   width: 340px;
   display:inline-block;
+}
+
+
+.contentarea {
+  font-size: 16px;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  width: 760px;
+} */
+
+
+
+body {
+  font-family: 'Lato';
+  background-color: #f0f0f0;
+  margin: 0px auto;
+  max-width: 1150px;
+}
+
+#overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  -o-transform : scaleX(-1);
+  -webkit-transform : scaleX(-1);
+  transform : scaleX(-1);
+  -ms-filter : fliph; /*IE*/
+  filter : fliph; /*IE*/
+}
+
+#videoel {
+  -o-transform : scaleX(-1);
+  -webkit-transform : scaleX(-1);
+  transform : scaleX(-1);
+  -ms-filter : fliph; /*IE*/
+  filter : fliph; /*IE*/
+}
+
+#photo {
+  border: 1px solid black;
+  box-shadow: 2px 2px 3px black;
+  width:400;
+  height:300;
+}
+
+#container {
+  position : relative;
+  width : 370px;
+  /*margin : 0px auto;*/
+}
+
+#content {
+  margin-top : 70px;
+  margin-left : 100px;
+  margin-right : 100px;
+  max-width: 950px;
 }
 
 #startbutton {
@@ -40,8 +90,23 @@
   color: rgba(255, 255, 255, 1.0);
 }
 
-.contentarea {
+h2 {
+  font-weight : 400;
+}
+
+.nogum {
+  display : none;
+}
+
+.btn {
+  font-family: 'Lato';
   font-size: 16px;
-  font-family: "Lucida Grande", "Arial", sans-serif;
-  width: 760px;
+
+}
+.hide {
+  display : none;
+}
+
+.nohide {
+  display : block;
 }
