@@ -7,50 +7,135 @@
   <link rel="stylesheet" href="main.css" type="text/css" media="all">
   <script src="bundle.js"></script>
   <script src="capture.js"></script>
-  <script src="clmtrackr.js"></script>
+  <script src="./clmTrackr/clmtrackr.js"></script>
+  <script src="./clmTrackr/utils.js"></script>
 </head>
 
 <body>
-  <div class="contentarea">
-    <h1>
-      ~FACE-OFF~
-    </h1>
-    <div class="camera">
-      <video id="video" width="400" height="300">
-        Video stream not available.
-        <!-- <source src="./media/somevideo.ogv" type="video/ogg" /> -->
-      </video>
-      <button id="startbutton">Take photo</button>
-    </div>
-    <canvas id="canvas">
-    </canvas>
-    <div class="output">
-      <img id="photo" alt="The screen capture will appear in this box.">
-    </div>
-    <script type="text/javascript">
-      var videoInput = document.getElementById('video');
-      var ctracker = new clm.tracker();
-      ctracker.init();
-      ctracker.start(videoInput);
-    </script>
-
-    <script type="text/javascript">
-      function positionLoop() {
-        requestAnimationFrame(positionLoop);
-        var positions = ctracker.getCurrentPosition();
-
-        // for(let i = 0; i < positions.length; i++) {
-        //   let position = positions[i]
-        //   let xCord = position[0]
-        //   let yCord = position[1]
-        //   console.log("MY POSITIONS: ", xCord, yCord);
-        // }
-        // console.log("POSITIONS: ", positions[[0][x, y]]);
-      }
-      positionLoop();
-    </script>
-
+ <div id="content">
+  <h2>Faceoff</h2>
+  <div id="container">
+    <video id="videoel" width="400" height="300" preload="auto" loop playsinline autoplay>
+    </video>
+    <canvas id="overlay" width="400" height="300"></canvas>
+    <button id="startbutton">Take Photo</button>
   </div>
+  <canvas id="canvas">
+  <div class="output">
+    <img id="photo">
+  </div>
+  </canvas>
+  <br/>
+
+
+  <script>
+    var vid = document.getElementById('videoel');
+    var vid_width = vid.width;
+    var vid_height = vid.height;
+    var overlay = document.getElementById('overlay');
+    var overlayCC = overlay.getContext('2d');
+
+
+    /*********** Setup of video/webcam and checking for webGL support *********/
+
+    function enablestart() {
+    }
+
+    var insertAltVideo = function (video) {
+      // insert alternate video if getUserMedia not available
+      if (supports_video()) {
+        if (supports_webm_video()) {
+          video.src = "./media/cap12_edit.webm";
+        } else if (supports_h264_baseline_video()) {
+          video.src = "./media/cap12_edit.mp4";
+        } else {
+          return false;
+        }
+        return true;
+      } else return false;
+    }
+
+    function adjustVideoProportions() {
+      // resize overlay and video if proportions of video are not 4:3
+      // keep same height, just change width
+      var proportion = vid.videoWidth / vid.videoHeight;
+      vid_width = Math.round(vid_height * proportion);
+      vid.width = vid_width;
+      overlay.width = vid_width;
+    }
+
+    function gumSuccess(stream) {
+      // add camera stream if getUserMedia succeeded
+      if ("srcObject" in vid) {
+        vid.srcObject = stream;
+      } else {
+        vid.src = (window.URL && window.URL.createObjectURL(stream));
+      }
+      vid.onloadedmetadata = function () {
+        adjustVideoProportions();
+        vid.play();
+      }
+      vid.onresize = function () {
+        adjustVideoProportions();
+        if (trackingStarted) {
+          ctrack.stop();
+          ctrack.reset();
+          ctrack.start(vid);
+        }
+      }
+    }
+
+    function gumFail() {
+      // fall back to video if getUserMedia failed
+      insertAltVideo(vid);
+      document.getElementById('gum').className = "hide";
+      document.getElementById('nogum').className = "nohide";
+      alert("There was some problem trying to fetch video from your webcam, using a fallback video instead.");
+    }
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    window.URL = window.URL || window.webkitURL || window.msURL || window.mozURL;
+
+    // set up video
+    if (navigator.mediaDevices) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(gumSuccess).catch(gumFail);
+    } else if (navigator.getUserMedia) {
+      navigator.getUserMedia({ video: true }, gumSuccess, gumFail);
+    } else {
+      insertAltVideo(vid);
+      document.getElementById('gum').className = "hide";
+      document.getElementById('nogum').className = "nohide";
+      alert("Your browser does not seem to support getUserMedia, using a fallback video instead.");
+    }
+
+    vid.addEventListener('canplay', enablestart, false);
+
+    /*********** Code for face tracking *********/
+
+    var ctrack = new clm.tracker();
+    ctrack.init();
+    var trackingStarted = false;
+    startVideo();
+
+    function startVideo() {
+      // start video
+      vid.play();
+      // start tracking
+      ctrack.start(vid);
+      trackingStarted = true;
+      // start loop to draw face
+      drawLoop();
+    }
+
+    function drawLoop() {
+      requestAnimFrame(drawLoop);
+      overlayCC.clearRect(0, 0, vid_width, vid_height);
+      if (ctrack.getCurrentPosition()) {
+        ctrack.draw(overlay);
+      }
+    }
+  </script>
+</div>
 </body>
 
 </html>

@@ -3,8 +3,8 @@
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
 
-  var width = 320;    // We will scale the photo width to this
-  var height = 0;     // This will be computed based on the input stream
+  var width = 400;    // We will scale the photo width to this
+  var height = 300;     // This will be computed based on the input stream
 
   // |streaming| indicates whether or not we're currently streaming
   // video from the camera. Obviously, we start at false.
@@ -20,7 +20,7 @@
   var startbutton = null;
 
   function startup() {
-    video = document.getElementById('video');
+    video = document.getElementById('videoel');
     canvas = document.getElementById('canvas');
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
