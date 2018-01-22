@@ -49,6 +49,8 @@ body {
 }
 
 #videoel {
+  border: 1px solid black;
+  box-shadow: 2px 2px 3px black;
   -o-transform : scaleX(-1);
   -webkit-transform : scaleX(-1);
   transform : scaleX(-1);
@@ -56,11 +58,16 @@ body {
   filter : fliph; /*IE*/
 }
 
-#photo {
+#canvas {
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
   width:400;
   height:300;
+  -o-transform : scaleX(-1);
+  -webkit-transform : scaleX(-1);
+  transform : scaleX(-1);
+  -ms-filter : fliph; /*IE*/
+  filter : fliph; /*IE*/
 }
 
 #container {
